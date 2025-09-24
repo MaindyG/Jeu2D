@@ -24,7 +24,7 @@ public class AcidKill : MonoBehaviour
     private AudioSource audioSource;
 
     public float reloadDelay = 1f;
-    public string sceneToLoad = "Menu";
+    public string sceneToLoad = "GameOver";
 
     void Start()
     {
