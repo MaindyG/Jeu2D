@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a3c14ce4e9833484895ec55f99d74f43
+timeCreated: 1459357257
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 86294
+  packageName: 41 Animated Pixel Characters
+  packageVersion: 1.0
+  assetPath: Assets/Assets/Animations/dude.controller
+  uploadId: 169280
