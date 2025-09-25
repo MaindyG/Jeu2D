@@ -39,6 +39,8 @@ public class FadeOut2D : MonoBehaviour
             // Soit on détruit l’objet, soit on le désactive
             if (destroyAfter) Destroy(gameObject);
             else gameObject.SetActive(false);
+            StartCoroutine(CoDelay(sceneToLoad, reloadDelay));
+
         }
     }
 
@@ -49,7 +51,6 @@ public class FadeOut2D : MonoBehaviour
         {
             // On active le fade
             fading = true;
-            StartCoroutine(CoDelay(sceneToLoad, reloadDelay));
         }
     }
     IEnumerator CoDelay(string name, float seconds)

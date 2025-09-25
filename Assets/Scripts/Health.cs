@@ -1,11 +1,11 @@
-// Health.cs
+// Gestion de la santé d’un personnage
 using UnityEngine;
 using UnityEngine.Events;
  
 public class Health : MonoBehaviour
 {
-    [Header("Santé")]
-    [SerializeField] private int maxHealth = 100;
+    [Header("Santé")] 
+    [SerializeField] private int maxHealth = 100; 
     [SerializeField] private int startHealth = 100;
  
     public int Max => maxHealth;
@@ -17,12 +17,13 @@ public class Health : MonoBehaviour
  
     public bool IsDead => Current <= 0;
  
+ // Initialise la santé au début
     void Awake()
     {
         Current = Mathf.Clamp(startHealth, 0, maxHealth);
         OnHealthChanged?.Invoke(Current, maxHealth);
     }
- 
+ // Inflige des dégâts (ou soigne si amount < 0)
     public void TakeDamage(int amount)
     {
         if (IsDead || amount <= 0) return;
@@ -31,10 +32,8 @@ public class Health : MonoBehaviour
         if (IsDead) OnDeath?.Invoke();
     }
 
-    public void AddHealth(int amount)
-    {
-        
-    }
+     
+
  
     public void Kill()
     {

@@ -16,7 +16,7 @@ void Awake()
 {
 rb = GetComponent<Rigidbody2D>();
 sr = GetComponent<SpriteRenderer>();
-//  animator = GetComponent<Animator>();
+animator = GetComponent<Animator>();
 }
  
 void FixedUpdate()
@@ -34,7 +34,7 @@ void OnCollisionEnter2D(Collision2D col)
 {
 if (col.collider.CompareTag("Player"))
 {
-var hp = col.collider.GetComponent<Health>();
+var hp = col.collider.GetComponent<PlayerHealth>();
 if (hp) hp.TakeDamage(touchDamage);
 }
 }

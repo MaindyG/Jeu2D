@@ -14,7 +14,7 @@ public class PlayerHealth : MonoBehaviour
 
     // ⟵ délai avant reload
     public float reloadDelay = 2f;
-    public string sceneToLoad = "Level2";
+    public string sceneToLoad = "GameOver"; // nom de la scène à charger en cas de mort
 
     // Awake est appelé au chargement du GameObject (avant Start).
     // On initialise les PV courants au maximum.
