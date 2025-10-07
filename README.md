@@ -17,8 +17,7 @@ git clone https://github.com/MaindyG/Jeu2D.git
 ### Déplacement
 Avec les touches du clavier 
 ```
- < : Aller a gauche |  > : Aller à droite | ^ : Sauter 
-  [ESPACE] : Punch
+ < : Aller a gauche |  > : Aller à droite | ^ : Sauter  |  [ESPACE] : Punch
 ```
 
 
