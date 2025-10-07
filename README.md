@@ -24,6 +24,6 @@ Avec les touches du clavier
 ## Condition de réussite ou d'échec
 > ⚠️ Vous aurez 3 vies et plusieurs CheckPoints a franchir pour conserver votre progrès. 
 
-> ECHEC : Vous mourrez si vous essayez de passer par la salle de bain qui peut vous électrocuter
+> ❌ ECHEC : Vous mourrez si vous essayez de passer par la salle de bain qui peut vous électrocuter
 
-> SUCCES : Vous gagnez le jeu si vous trouver la porte de sortie
+> ✔️ SUCCES : Vous gagnez le jeu si vous trouver la porte de sortie
