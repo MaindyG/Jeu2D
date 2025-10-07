@@ -5,7 +5,11 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class PlayerHealth : MonoBehaviour
+
+
 {
+    private Animator playerAnimator; // pour jouer l'animation de mort
+
     // Nombre de points de vie maximum du joueur (réglable dans l’Inspector).
     public int maxHealth = 5;
 
@@ -33,7 +37,7 @@ public class PlayerHealth : MonoBehaviour
         // Si les PV tombent à 0 ou moins, on déclenche la mort.
         if (currentHealth <= 0) Die();
 
-       
+
     }
 
     public void AddHealth(int v)
@@ -43,18 +47,20 @@ public class PlayerHealth : MonoBehaviour
 
 
     // Gère la mort du joueur : animations, désactivation d’input, rechargement de scène, etc.
-    void Die()
+    public void Die()
     {
         Debug.Log("Player est mort !");
+        playerAnimator = GetComponent<Animator>();
+        
         // Ici : désactiver le joueur, lancer une animation, recharger la scène, etc.
         // Exemple (selon ton architecture) :
-        // GetComponent<PlayerMove>().enabled = false;
+        GetComponent<PlayerMove>().enabled = false;
         // animator.SetTrigger("Dead");
         // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
         // (Optionnel) désactiver l'input / jouer une anim / un fade-out ici…
-        if (reloadDelay <= 0f) SceneManager.LoadScene(sceneToLoad);
-        else StartCoroutine(CoDelay(sceneToLoad, reloadDelay));
+        playerAnimator.SetTrigger("Dead");
+        StartCoroutine(CoDelay(sceneToLoad, reloadDelay));
 
     }
 

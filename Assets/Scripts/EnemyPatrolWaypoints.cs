@@ -12,7 +12,7 @@ public class EnemyPatrolWaypoints : MonoBehaviour
     public enum PatrolMode { Loop, PingPong }
 
     // États logiques d’animation (à utiliser plus tard avec l’Animator)
-    public enum AnimState { Idle, Walk, Run, Attack }
+    public enum AnimState { EnnemyIdle, EnnemyWalk, EnnemyChase, EnnemyAttack }
 
     [Header("Waypoints en ordre")]
     public Transform[] points;             // Liste des points de patrouille
@@ -52,7 +52,7 @@ public class EnemyPatrolWaypoints : MonoBehaviour
     float nextAttackTime = 0f;             // Timer pour le cooldown d’attaque
 
     // État courant d’animation (logique interne)
-    AnimState currentState = AnimState.Idle;
+    AnimState currentState = AnimState.EnnemyIdle;
 
     void Awake()
     {
@@ -78,7 +78,7 @@ public class EnemyPatrolWaypoints : MonoBehaviour
         }
 
         // État initial = Idle
-        SetAnimState(AnimState.Idle);
+        SetAnimState(AnimState.EnnemyIdle);
     }
 
     void FixedUpdate()
@@ -104,12 +104,11 @@ public class EnemyPatrolWaypoints : MonoBehaviour
                 // ---- ATTACK ----
                 rb.linearVelocity = Vector2.zero;
                 FaceTarget(player.position);
-                SetAnimState(AnimState.Attack);
+                SetAnimState(AnimState.EnnemyAttack);
 
                 // Lancer une attaque toutes les X secondes (cooldown)
                 if (Time.time >= nextAttackTime)
                 {
-                    TryAttack();
                     nextAttackTime = Time.time + attackCooldown;
                 }
                 return;
@@ -118,14 +117,14 @@ public class EnemyPatrolWaypoints : MonoBehaviour
             {
                 // ---- RUN ----
                 MoveTowards(player.position, runSpeed);
-                SetAnimState(AnimState.Run);
+                SetAnimState(AnimState.EnnemyChase);
                 return;
             }
             else if (d <= walkRadius)
             {
                 // ---- WALK ----
                 MoveTowards(player.position, walkSpeed);
-                SetAnimState(AnimState.Walk);
+                SetAnimState(AnimState.EnnemyWalk);
                 return;
             }
             // Sinon → joueur trop loin → patrouille normale
@@ -154,7 +153,7 @@ public class EnemyPatrolWaypoints : MonoBehaviour
             AdvanceIndex();
             waitTimer = waitAtPoint;
             rb.linearVelocity = Vector2.zero;
-            SetAnimState(AnimState.Idle);
+            SetAnimState(AnimState.EnnemyIdle);
             return;
         }
 
@@ -198,44 +197,45 @@ public class EnemyPatrolWaypoints : MonoBehaviour
         }
     }
 
-    // Essaye de faire une attaque (placeholder)
-    void TryAttack()
-    {
-        // Ici tu pourrais lancer un trigger d’animation :
-        // if (animator) animator.SetTrigger("Attack");
+   
 
-        // Exemple de dégâts directs :
-        // if (player)
-        // {
-        //     var hp = player.GetComponent<PlayerHealth>();
-        //     if (hp) hp.TakeDamage(touchDamage);
-        // }
-    }
-
-    void OnCollisionEnter2D(Collision2D col)
-    {
-        if (col.collider.CompareTag("Player"))
-        {
-            var hp = col.collider.GetComponent<Health>();
-            if (hp) hp.TakeDamage(touchDamage);
-        }
-    }
+    
 
     // Met à jour l’état d’animation (logique)
     void SetAnimState(AnimState state)
     {
+        // Si l’état est déjà actif, on ne fait rien
         if (currentState == state) return;
         currentState = state;
 
-        // --- Exemple d’utilisation future avec Animator ---
-        // Option 1 : un paramètre int "State"
-        // animator.SetInteger("State", (int)currentState);
-        //
-        // Option 2 : 4 booléens exclusifs "IsIdle", "IsWalk", etc.
-        // animator.SetBool("IsIdle",   state == AnimState.Idle);
-        // animator.SetBool("IsWalk",   state == AnimState.Walk);
-        // animator.SetBool("IsRun",    state == AnimState.Run);
-        // animator.SetBool("IsAttack", state == AnimState.Attack);
+      // Speed selon l'état
+        if (state == AnimState.EnnemyWalk)
+        {
+            animator.SetFloat("Speed", walkSpeed);
+        }
+        else if (state == AnimState.EnnemyChase)
+        {
+            animator.SetFloat("Speed", runSpeed);
+        }
+        else if (state == AnimState.EnnemyIdle)
+        {
+            animator.SetFloat("Speed", 0f);
+        }
+
+// Booléens pour les états de chase 
+        if (state == AnimState.EnnemyChase){
+            animator.SetBool("IsChasing", true);
+        } else {
+            animator.SetBool("IsChasing", false);
+        }
+//Triggers pour les états d'attaque
+        if (state == AnimState.EnnemyAttack)
+        {
+            animator.SetTrigger("Attack");
+        }
+
+
+       
     }
 
     // Oriente l’ennemi vers la cible (utile pour Attack)

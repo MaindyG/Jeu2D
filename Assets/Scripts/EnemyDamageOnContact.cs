@@ -28,7 +28,7 @@ public class EnemyDamageOnContact : MonoBehaviour
     /// <summary>
     /// Dégâts infligés à chaque "hit".
     /// </summary>
-    public int damage = 10;
+    public int damage = 1;
 
     /// <summary>
     /// Délai minimal entre deux coups sur le même joueur (en secondes).
@@ -57,7 +57,7 @@ public class EnemyDamageOnContact : MonoBehaviour
         if (!root.CompareTag(playerTag)) return;
 
         // Récupère le script de vie du joueur (ta classe à toi)
-        var hp = root.GetComponent<Health>();
+        var hp = root.GetComponent<PlayerHealth>();
         if (!hp) return; // pas de santé trouvée → rien à faire
 
         // Anti-spam : si le délai minimal n'est pas écoulé, on ignore ce hit
@@ -68,5 +68,6 @@ public class EnemyDamageOnContact : MonoBehaviour
 
         // Mémorise l'heure du dernier coup
         lastHitTime = Time.time;
+        Debug.Log($"Ennemi inflige {damage} dégâts! HP restant: {hp.maxHealth - damage}");
     }
 }

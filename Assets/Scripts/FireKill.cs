@@ -15,7 +15,7 @@ public class AcidKill : MonoBehaviour
     [Tooltip("Optionnel: dégâts par seconde tant qu'on reste dedans (0 = off).")]
     public int damagePerSecond = 0; //Dommages inflictés par seconde
 
-    private Health playerHealth; // référence au script de vie du joueur
+    private PlayerHealth playerHealth; // référence au script de vie du joueur
     private Animator playerAnimator; // pour jouer l'animation de mort
 
     // Clip audio Ã  jouer quand le joueur meurt
@@ -32,7 +32,7 @@ public class AcidKill : MonoBehaviour
         var player = FindAnyObjectByType<PlayerMove>(); // on part de ton script existant :contentReference[oaicite:2]{index=2}
         if (player)
         {
-            playerHealth = player.GetComponent<Health>();
+            playerHealth = player.GetComponent<PlayerHealth>();
             playerAnimator = player.GetComponent<Animator>();
         }
     }
@@ -46,7 +46,7 @@ public class AcidKill : MonoBehaviour
         {
             if (damageOnEnter >= 9999)
             {
-                playerHealth.Kill();
+                playerHealth.Die();
             }
             else playerHealth.TakeDamage(damageOnEnter);
         }
@@ -64,10 +64,4 @@ public class AcidKill : MonoBehaviour
 
 
 
-    // Tant que le joueur reste dans le feu (dégâts par seconde)
-    void OnTriggerStay2D(Collider2D other)
-    {
-        if (damagePerSecond <= 0 || !other.CompareTag(feuTag) || playerHealth == null || playerHealth.IsDead) return;
-        playerHealth.TakeDamage(Mathf.CeilToInt(damagePerSecond * Time.deltaTime));
-    }
 }

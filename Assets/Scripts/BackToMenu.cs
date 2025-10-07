@@ -19,8 +19,6 @@ public class BackToMenu : MonoBehaviour
 
     private void TaskOnClip()
     {
-        Debug.Log("You have clicked the button!");
         SceneManager.LoadScene(sceneToLoad);
-
     }
 }
