@@ -33,15 +33,14 @@ public class FadeOut2D : MonoBehaviour
         // On applique le nouvel alpha au sprite (couleur inchangée, juste la transparence)
         sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, alpha);
 
-        // Quand le temps écoulé dépasse la durée du fade
-        if (t >= fadeDuration)
-        {
-            // Soit on détruit l’objet, soit on le désactive
-            if (destroyAfter) Destroy(gameObject);
-            else gameObject.SetActive(false);
-            StartCoroutine(CoDelay(sceneToLoad, reloadDelay));
+        // // Quand le temps écoulé dépasse la durée du fade
+        // if (t >= fadeDuration)
+        // {
+        //     // Soit on détruit l’objet, soit on le désactive
+        //     if (destroyAfter) Destroy(gameObject);
+        //     else gameObject.SetActive(false);
 
-        }
+        // }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -49,8 +48,11 @@ public class FadeOut2D : MonoBehaviour
         // Si l’objet qui entre en collision a le tag "Hazard" (piège/zone de danger)
         if (other.CompareTag("Door"))
         {
+
             // On active le fade
             fading = true;
+            StartCoroutine(CoDelay(sceneToLoad, reloadDelay));
+
         }
     }
     IEnumerator CoDelay(string name, float seconds)
