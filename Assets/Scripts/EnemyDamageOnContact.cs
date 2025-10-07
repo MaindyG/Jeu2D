@@ -28,7 +28,7 @@ public class EnemyDamageOnContact : MonoBehaviour
     /// <summary>
     /// Dégâts infligés à chaque "hit".
     /// </summary>
-    public int damage = 1;
+    public int damage = 25;
 
     /// <summary>
     /// Délai minimal entre deux coups sur le même joueur (en secondes).
@@ -46,28 +46,22 @@ public class EnemyDamageOnContact : MonoBehaviour
         var col = GetComponent<Collider2D>();
         if (col) col.isTrigger = true;
     }
-
     void OnTriggerEnter2D(Collider2D other)
     {
-        // On remonte à l'objet "racine" qui porte le Rigidbody2D (le vrai Player)
-        // car le contact peut provenir d'un collider enfant du joueur.
-        var root = other.attachedRigidbody ? other.attachedRigidbody.gameObject : other.gameObject;
+        // Quand un collider entre dans la hitbox
+        if (other.CompareTag("Player"))
+        {
+            // C'est le joueur (on suppose que le tag est sur la racine)
+            var hp = other.GetComponent<PlayerHealth>();
 
-        // Filtre : on ne réagit qu'au Player (par Tag)
-        if (!root.CompareTag(playerTag)) return;
+            // Essaie de lui infliger des dégâts
+            if (hp) hp.TakeDamage(damage);
 
-        // Récupère le script de vie du joueur (ta classe à toi)
-        var hp = root.GetComponent<PlayerHealth>();
-        if (!hp) return; // pas de santé trouvée → rien à faire
+            // Log de debug
+            Debug.Log($"Ennemi inflige {damage} dégâts! HP restant: {hp.maxHealth - damage}");
 
-        // Anti-spam : si le délai minimal n'est pas écoulé, on ignore ce hit
-        if (Time.time - lastHitTime < hitCooldown) return;
-
-        // Inflige les dégâts → ta UI écoute PlayerHealth et mettra la barre à jour
-        hp.TakeDamage(damage);
-
-        // Mémorise l'heure du dernier coup
-        lastHitTime = Time.time;
-        Debug.Log($"Ennemi inflige {damage} dégâts! HP restant: {hp.maxHealth - damage}");
+        }
     }
+
+
 }

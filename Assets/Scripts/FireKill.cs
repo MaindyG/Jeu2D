@@ -50,16 +50,16 @@ public class AcidKill : MonoBehaviour
             }
             else playerHealth.TakeDamage(damageOnEnter);
         }
-        if (playerAnimator) playerAnimator.SetTrigger("Dead");
-        StartCoroutine(CoDelay(sceneToLoad, reloadDelay));
+    //     if (playerAnimator) playerAnimator.SetTrigger("Dead");
+    //     StartCoroutine(CoDelay(sceneToLoad, reloadDelay));
 
 
 
-    }
-    IEnumerator CoDelay(string name, float seconds)
-    {
-        yield return new WaitForSecondsRealtime(seconds);
-        SceneManager.LoadScene(name);
+    // }
+    // IEnumerator CoDelay(string name, float seconds)
+    // {
+    //     yield return new WaitForSecondsRealtime(seconds);
+    //     SceneManager.LoadScene(name);
     }
 
 

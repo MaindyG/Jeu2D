@@ -37,7 +37,7 @@ public class EnemyPatrolWaypoints : MonoBehaviour
     public float attackCooldown = 1.0f;    // Temps minimal entre deux attaques
 
     [Header("Combat")]
-    public int touchDamage = 1;            // Dégâts infligés au joueur
+    public int touchDamage = 10;            // Dégâts infligés au joueur
 
     // Références internes
     Rigidbody2D rb;
